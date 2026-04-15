@@ -1,70 +1,248 @@
 <!DOCTYPE html>
+<!--Set up; lang, fonts, scaling-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>WatchWorth</title>
-
     <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
-    <!--bar-->
+<!--Header-->
     <div class="bar">
         <a href="index.html" class="logo">WatchWorth</a>
         <div class="slogan">Is it worth the watch?</div>
     </div>
 
-    <!--buttons-->
-    <div class="side-buttons">
-        <a href="pages/BestOfAllTime.html">
-    <button>Top Movies of All Time</button>
-</a>
-        <a href="pages2/NewReleases.html">
-    <button>New Releases</button>
-</a>
-        <a href="pages3/LowestRated.html">
-    <button>Lowest Rated</button>
-</a>
-        <a href="AboutUs.html">
-    <button>About Us</button>
-</a>
-    </div>
+    <!--Buttons-->
+    <nav class="side-buttons" aria-label="Main navigation">
+        <a href="BestOfAllTime.html">Top Movies of All Time</a>
+        <a href="NewReleases.html">New Releases</a>
+        <a href="LowestRated.html">Lowest Rated</a>
+        <a href="AboutUs.html">About Us</a>
+    </nav>
 
-    <!--main-->
-    <div class="homepage-main">
-
+    <!--Movie of the week area-->
+    <main class="homepage-main">
         <h2 class="homepage-movie">
             Movie of the Week:
             <span class="movie-title-homepage">Iron Lung</span>
         </h2>
 
         <div class="homepage-content">
-
             <div class="text">
                 <p>
                     Survivors of the apocalypse send a convict in a small submarine to explore a desolate moon that's an ocean of blood.
                 </p>
+                <p><strong>Want something specific?</strong> Search or filter the full list below.</p>
             </div>
 
             <div class="homepage-photo">
-               <a href="pages2/IronLung.html">
-                    <img src="photos/lung.jpg">
+                <a href="movie.html?id=ironlung">
+                    <img src="photos/lung.jpg" alt="Iron Lung movie poster">
                 </a>
             </div>
-
         </div>
-    </div>
+        <!--Control panel, sorting, filters, etc.-->
+        <section class="controls-panel">
+            <div class="search-row">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search movies by title...">
+                <select id="sortSelect" class="sort-select">
+                    <option value="default">Sort: Default</option>
+                    <option value="az">Title A-Z</option>
+                    <option value="rating">Rating High-Low</option>
+                </select>
+                <button id="showFavoritesBtn" class="action-button">Show Favorites</button>
+            </div>
 
-    <!--contact-->
-    <div class="contact">
+            <div class="filter-row">
+                <button class="filter-btn" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="5star">5 Star</button>
+                <button class="filter-btn" data-filter="3plus">3+ Star</button>
+                <button class="filter-btn" data-filter="Horror">Horror</button>
+                <button class="filter-btn" data-filter="Crime">Crime</button>
+                <button class="filter-btn" data-filter="Classics">Classics</button>
+                <button class="filter-btn" data-filter="New Releases">New Releases</button>
+                <button class="filter-btn" data-filter="Worth Watching">Worth Watching</button>
+                <button class="filter-btn" data-filter="Skip">Not Worth Watching</button>
+            </div>
+
+            <p class="results-info" id="resultsInfo">Showing all movies</p>
+        </section>
+
+        <!--Error message-->
+        <section>
+            <div class="title">
+                <h2>Browse All Reviews</h2>
+            </div>
+            <div class="movies" id="movieGrid"></div>
+            <div class="empty-message" id="emptyMessage" style="display: none;">
+                No movies matched your search.
+            </div>
+        </section>
+    </main>
+
+    <!--Contact info-->
+    <footer class="contact">
         <div class="contact-text"></div>
         <p>
-            Wanna reach us? 
+            Wanna reach us?
             <a href="Contact.html">Contact us here</a>
         </p>
-    </div>
+    </footer>
 
+    <!--Js script functions-->
+    <script src="movies.js"></script>
+    <script>
+        const movieGrid = document.getElementById("movieGrid");
+        const searchInput = document.getElementById("searchInput");
+        const sortSelect = document.getElementById("sortSelect");
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const resultsInfo = document.getElementById("resultsInfo");
+        const emptyMessage = document.getElementById("emptyMessage");
+        const showFavoritesBtn = document.getElementById("showFavoritesBtn");
+
+        let currentFilter = "all";
+        let showingFavoritesOnly = false;
+
+        //Read favorites list (or return empty array)
+        function getFavorites() {
+            return JSON.parse(localStorage.getItem("watchworthFavorites")) || [];
+        }
+
+        //Save favorites list
+        function saveFavorites(favorites) {
+            localStorage.setItem("watchworthFavorites", JSON.stringify(favorites));
+        }
+
+        //Add and remove a movie from favorites
+        function toggleFavorite(movieId) {
+            let favorites = getFavorites();
+
+            if (favorites.includes(movieId)) {
+                favorites = favorites.filter(id => id !== movieId);
+            } else {
+                favorites.push(movieId);
+            }
+
+            saveFavorites(favorites);
+            renderMovies();
+        }
+
+        //Make the movie cards with all the details
+        function createMovieCard(movie) {
+            const favorites = getFavorites();
+            const isFavorite = favorites.includes(movie.id);
+
+            return `
+                <div class="movie">
+                    <a href="movie.html?id=${movie.id}">
+                        <img src="${movie.image}" alt="${movie.alt}">
+                    </a>
+                    <h3 class="movie-title">${movie.title}</h3>
+                    <p class="movie-stars">${movie.stars}</p>
+                    <p class="movie-meta">${movie.genre} • ${movie.year}</p>
+                    <p class="movie-verdict">${movie.verdict}</p>
+                    <div class="card-buttons">
+                        <a href="movie.html?id=${movie.id}" class="action-button">Read Review</a>
+                        <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="toggleFavorite('${movie.id}')">
+                            ${isFavorite ? '★ Favorited' : '☆ Favorite'}
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        //Check if the movie mathches criteria or not
+        function applyFilter(movie) {
+            if (showingFavoritesOnly) {
+                const favorites = getFavorites();
+                if (!favorites.includes(movie.id)) return false;
+            }
+
+            const searchText = searchInput.value.toLowerCase().trim();
+            const matchesSearch = movie.title.toLowerCase().includes(searchText);
+
+            let matchesFilter = true;
+
+            if (currentFilter === "5star") {
+                matchesFilter = movie.rating === 5;
+            } else if (currentFilter === "3plus") {
+                matchesFilter = movie.rating >= 3;
+            } else if (currentFilter === "Worth Watching") {
+                matchesFilter = movie.verdict === "Worth Watching" || movie.verdict === "Must Watch";
+            } else if (currentFilter === "Skip") {
+                matchesFilter = movie.verdict === "Skip";
+            } else if (currentFilter !== "all") {
+                matchesFilter = movie.genre === currentFilter || movie.category === currentFilter || movie.verdict === currentFilter;
+            }
+
+            return matchesSearch && matchesFilter;
+        }
+
+        //Sort the movies based on the criteria
+        function sortMovies(movieList) {
+            const sortValue = sortSelect.value;
+
+            if (sortValue === "az") {
+                movieList.sort((a, b) => a.title.localeCompare(b.title));
+            } else if (sortValue === "rating") {
+                movieList.sort((a, b) => b.rating - a.rating || a.title.localeCompare(b.title));
+            }
+
+            return movieList;
+        }
+
+        //Main function for filtering, sorting and showing the correct card
+        function renderMovies() {
+            let filteredMovies = movies.filter(applyFilter);
+            filteredMovies = sortMovies(filteredMovies);
+
+            movieGrid.innerHTML = filteredMovies.map(createMovieCard).join("");
+
+            emptyMessage.style.display = filteredMovies.length === 0 ? "block" : "none";
+
+            let message = `Showing ${filteredMovies.length} movie`;
+            if (filteredMovies.length !== 1) message += "s";
+
+            if (showingFavoritesOnly) {
+                message += " from favorites";
+            }
+
+            resultsInfo.textContent = message;
+            updateFavoritesButton();
+        }
+
+        //Change show movies/favorites button
+        function updateFavoritesButton() {
+            if (showingFavoritesOnly) {
+                showFavoritesBtn.textContent = "Show All Movies";
+            } else {
+                showFavoritesBtn.textContent = "Show Favorites";
+            }
+        }
+
+        searchInput.addEventListener("input", renderMovies);
+        sortSelect.addEventListener("change", renderMovies);
+
+        filterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                filterButtons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+                currentFilter = button.dataset.filter;
+                renderMovies();
+            });
+        });
+
+        showFavoritesBtn.addEventListener("click", () => {
+            showingFavoritesOnly = !showingFavoritesOnly;
+            renderMovies();
+        });
+
+        document.querySelector('.filter-btn[data-filter="all"]').classList.add("active");
+        renderMovies();
+    </script>
 </body>
 </html>
