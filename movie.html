@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<!--Set up; lang, fonts, scaling-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WatchWorth - Movie Review</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<!--Header-->
+<body>
+
+    <div class="bar">
+        <a href="index.html" class="logo">WatchWorth</a>
+        <div class="slogan">Is it worth the watch?</div>
+    </div>
+    <!--Whole review section, title, categories, review, photo-->
+    <h1 class="review-title" id="movie-title">Movie Review</h1>
+
+    <div class="metadata-row" id="metadataRow"></div>
+
+    <div class="review-content">
+        <div class="review-text">
+            <p id="movie-text"></p>
+        </div>
+
+        <div class="review-photo">
+            <img id="movie-image" src="" alt="">
+            <div class="stars" id="movie-stars"></div>
+            <div class="card-buttons" style="justify-content:center; margin-top:15px;">
+                <button class="favorite-btn" id="favoriteButton">☆ Favorite</button>
+                <a href="index.html" class="action-button">Back Home</a>
+            </div>
+        </div>
+    </div>
+
+    <!--Related movies area-->
+    <section class="related-section">
+        <h2>Related Movies</h2>
+        <div class="related-grid" id="relatedGrid"></div>
+    </section>
+
+    <script src="movies.js"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const movieId = params.get("id");
+        const movie = getMovieById(movieId);
+
+        const titleEl = document.getElementById("movie-title");
+        const textEl = document.getElementById("movie-text");
+        const imageEl = document.getElementById("movie-image");
+        const starsEl = document.getElementById("movie-stars");
+        const metadataRow = document.getElementById("metadataRow");
+        const relatedGrid = document.getElementById("relatedGrid");
+        const favoriteButton = document.getElementById("favoriteButton");
+
+        //All favourites functions, save, remove/add
+        function getFavorites() {
+            return JSON.parse(localStorage.getItem("watchworthFavorites")) || [];
+        }
+
+        function saveFavorites(favorites) {
+            localStorage.setItem("watchworthFavorites", JSON.stringify(favorites));
+        }
+
+        function updateFavoriteButton() {
+            const favorites = getFavorites();
+            const isFavorite = favorites.includes(movieId);
+            favoriteButton.textContent = isFavorite ? "★ Favorited" : "☆ Favorite";
+            favoriteButton.classList.toggle("active", isFavorite);
+        }
+
+        function toggleFavorite() {
+            let favorites = getFavorites();
+
+            if (favorites.includes(movieId)) {
+                favorites = favorites.filter(id => id !== movieId);
+            } else {
+                favorites.push(movieId);
+            }
+
+            saveFavorites(favorites);
+            updateFavoriteButton();
+        }
+
+        //Make sure related movies are showing (those that match 3 categories)
+        function renderRelatedMovies(currentMovie) {
+            const related = movies
+                .filter(item => item.id !== currentMovie.id && (item.genre === currentMovie.genre || item.category === currentMovie.category))
+                .slice(0, 3);
+
+            if (related.length === 0) {
+                relatedGrid.innerHTML = "<p class='empty-message'>No related movies found.</p>";
+                return;
+            }
+
+            relatedGrid.innerHTML = related.map(item => `
+                <div class="movie">
+                    <a href="movie.html?id=${item.id}">
+                        <img src="${item.image}" alt="${item.alt}">
+                    </a>
+                    <h3 class="movie-title">${item.title}</h3>
+                    <p class="movie-stars">${item.stars}</p>
+                    <p class="movie-meta">${item.genre} • ${item.year}</p>
+                    <p class="movie-verdict">${item.verdict}</p>
+                </div>
+            `).join("");
+        }
+
+        if (movie) {
+            document.title = `WatchWorth - ${movie.title}`;
+            titleEl.textContent = movie.title;
+            textEl.textContent = movie.text;
+            imageEl.src = movie.image;
+            imageEl.alt = movie.alt;
+            starsEl.textContent = movie.stars;
+
+            metadataRow.innerHTML = `
+                <span>Genre: ${movie.genre}</span>
+                <span>Year: ${movie.year}</span>
+                <span>Director: ${movie.director}</span>
+                <span>Category: ${movie.category}</span>
+                <span>Verdict: ${movie.verdict}</span>
+            `;
+
+            //Error messages and the page style that show if no movies are found
+            renderRelatedMovies(movie);
+            updateFavoriteButton();
+            favoriteButton.addEventListener("click", toggleFavorite);
+        } else {
+            document.title = "WatchWorth - Movie Not Found";
+            titleEl.textContent = "Movie Not Found";
+            textEl.textContent = "Sorry, this movie review could not be found.";
+            imageEl.style.display = "none";
+            starsEl.textContent = "";
+            metadataRow.innerHTML = "";
+            relatedGrid.innerHTML = "";
+            favoriteButton.style.display = "none";
+        }
+    </script>
+</body>
+</html>
