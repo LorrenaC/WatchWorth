@@ -1,20 +1,30 @@
-
-/*Homepage*/
+* {
+    box-sizing: border-box;
+}
+ /*Background of all pages*/
 body {
     margin: 0;
     font-family: 'Open Sans', sans-serif;
-
-    background: 
-    linear-gradient(rgba(10, 10, 10, 0.75), rgba(0,0,0,0.85)),
-    url("photos/cinema try.jpg");
-
+    color: white;
+    background:
+        linear-gradient(rgba(10, 10, 10, 0.75), rgba(0, 0, 0, 0.85)),
+        url("photos/cinema try.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     background-attachment: fixed;
-    color: white;
 }
 
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    color: inherit;
+}
+
+/*Header for all pages*/
 .bar {
     background: linear-gradient(
         to right,
@@ -22,11 +32,10 @@ body {
         rgba(80, 20, 20, 0.9) 40%,
         rgba(0, 0, 0, 1) 100%
     );
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
+    gap: 16px;
     padding: 15px 30px;
 }
 
@@ -44,57 +53,77 @@ body {
 
 .slogan {
     font-family: 'Merriweather', serif;
-    color:  rgb(246, 220, 78);
+    color: rgb(246, 220, 78);
     font-size: 16px;
+    text-align: right;
 }
 
+/*All the buttons on the side*/
 .side-buttons {
     position: absolute;
     top: 120px;
     left: 25px;
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 20px;
 }
 
-.side-buttons button {
+.side-buttons a,
+.action-button {
+    display: inline-block;
     background-color: #5a1f1f;
     color: #ffd700;
     border-radius: 8px;
-
-    padding: 20px;
-    width: 200px;
-
-    font-family: 'Merriweather', serif; /* more cinematic font */
+    padding: 16px 20px;
+    width: 220px;
+    font-family: 'Merriweather', serif;
     font-size: 16px;
     letter-spacing: 1px;
     text-shadow:
         1px 1px 0 #000,
         0 0 6px rgba(171, 3, 3, 0.322);
-
+    text-align: center;
+    text-decoration: none;
     cursor: pointer;
     transition: all 0.25s ease;
+    border: none;
 }
 
-.side-buttons button:hover {
-    transform: scale(1.08);
+/*Universal button styles*/
+.side-buttons a:hover,
+.action-button:hover,
+.filter-btn:hover,
+.sort-select:hover,
+.search-input:hover,
+.favorite-btn:hover {
+    transform: scale(1.03);
     background-color: #6f2b2b;
     box-shadow:
         0 0 10px #882323,
         0 0 25px rgba(255, 215, 0, 0.3);
 }
 
-.side-buttons button:focus {
-    outline: none;
-    border: 2px solid #ff3b3b;
-    box-shadow:
-        0 0 8px #ff3b3b,
-        0 0 20px rgba(255, 215, 0, 0.4);
+.side-buttons a:focus-visible,
+.logo:focus-visible,
+.homepage-photo a:focus-visible,
+.movie a:focus-visible,
+.contact a:focus-visible,
+.contact-info a:focus-visible,
+.action-button:focus-visible,
+.filter-btn:focus-visible,
+.favorite-btn:focus-visible,
+.search-input:focus-visible,
+.sort-select:focus-visible {
+    outline: 2px solid #ff3b3b;
+    outline-offset: 4px;
+    border-radius: 8px;
 }
 
+/*Homepage center area, text, photo, etc.*/
 .homepage-main {
     text-align: center;
     margin-top: 120px;
+    padding: 0 20px 40px;
 }
 
 .homepage-movie {
@@ -102,7 +131,6 @@ body {
     font-size: 22px;
     color: #ff6b6b;
     letter-spacing: 2px;
-
     text-transform: uppercase;
     text-shadow:
         1px 1px 0 #000,
@@ -128,201 +156,275 @@ body {
     align-items: center;
     gap: 40px;
     margin-top: 40px;
+    flex-wrap: wrap;
 }
 
-.text {
-    width: 320px;
-    padding: 20px;
+/*Text box for all*/
+.text,
+.review-text,
+.about-section,
+.contact-info,
+.controls-panel,
+.metadata-row,
+.related-section {
     background: linear-gradient(
         to right,
         rgba(0, 0, 0, 0.85),
         rgba(0, 0, 0, 0.6),
-        rgba(0, 0, 0, 0)
+        rgba(0, 0, 0, 0.15)
     );
-
-    border-left: 2px solid #ffd900ea;
+    border-left: 2px solid #ffd700;
     border-radius: 10px;
+    backdrop-filter: blur(4px);
+}
+
+.text {
+    width: 320px;
+    max-width: 100%;
+    padding: 20px;
     text-align: left;
 }
 
-.text p {
+.text p,
+.review-text p,
+.about-section p,
+.contact-info p {
     font-family: 'Merriweather', serif;
     font-size: 16px;
-    line-height: 1.6;
+    line-height: 1.7;
     color: #f5e6c8;
-    text-shadow:
-        1px 1px 2px rgba(0, 0, 0, 0.8);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+    white-space: pre-line;
 }
 
+/*Movie of the week photo effects*/
 .homepage-photo img {
     width: 300px;
     border-radius: 10px;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow:
+        0 0 15px rgba(255, 0, 0, 0.3),
+        0 0 25px rgba(255, 215, 0, 0.2);
 }
 
 .homepage-photo img:hover {
     transform: scale(1.08);
 }
 
+/*Contact area*/
 .contact {
-    margin-top: 100px;
-    padding-left: 20px;
+    margin-top: 80px;
+    padding: 0 20px 30px;
 }
 
 .contact-text {
     height: 2px;
-    width: 70%;
+    width: min(70%, 900px);
     background-color: gold;
     margin-bottom: 10px;
 }
 
-.contact p {
-    color:  #ff6b6b;
-}
-
+.contact p,
 .contact a {
-    color:  #ff6b6b;
-    text-decoration: underline;
+    color: #ff6b6b;
 }
 
-
-/*Best Of All Time page*/
 .title {
     text-align: center;
     margin-top: 40px;
+    padding: 0 20px;
 }
 
-.title h2 {
+.title h1,
+.title h2,
+.review-title,
+.about-title,
+.contact-title {
     font-family: 'Merriweather', serif;
-    font-size: 32px;
+    font-size: 34px;
     color: #fbf6db;
     letter-spacing: 3px;
     text-shadow:
         2px 2px 0 #000,
         0 0 10px rgba(255, 215, 0, 0.6),
         0 0 20px rgba(255, 0, 0, 0.4);
+    text-align: center;
 }
 
+/*Sorting buttons and filters, search bar*/
+.controls-panel {
+    max-width: 1200px;
+    margin: 30px auto 0;
+    padding: 20px;
+}
+
+.search-row,
+.sort-row,
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.search-input,
+.sort-select {
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #8a6b1f;
+    background-color: rgba(40, 10, 10, 0.95);
+    color: #f5e6c8;
+    font-family: 'Open Sans', sans-serif;
+    min-width: 240px;
+}
+
+.filter-btn,
+.favorite-btn {
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid #8a6b1f;
+    background-color: #4c1919;
+    color: #ffd700;
+    font-family: 'Merriweather', serif;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.filter-btn.active,
+.favorite-btn.active {
+    background-color: #8b1e1e;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+}
+
+.results-info {
+    text-align: center;
+    color: #f5e6c8;
+    margin-top: 10px;
+    font-family: 'Merriweather', serif;
+}
+
+/*Movie cards*/
 .movies {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
     padding: 40px;
     max-width: 1200px;
     margin: 0 auto;
-    justify-items: center;
+    align-items: start;
 }
 
 .movie {
     text-align: center;
     background: rgba(0, 0, 0, 0.6);
-    padding: 10px;
+    padding: 12px;
     border-radius: 12px;
-
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: fit-content;
-    margin: 0 auto;
-    justify-content: flex-start;
-
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     backdrop-filter: blur(4px);
 }
 
-.movie img {
-    width: 100%;
-    max-width: 250px;
-    height: 320px;        
-    object-fit: cover;    
-    border-radius: 10px;
-    display: block;
-}
-
-.movie:hover img {
-    opacity: 0.9;
-}
-
 .movie:hover {
-    transform: scale(1.05);
+    transform: scale(1.04);
     box-shadow:
         0 0 15px rgba(255, 0, 0, 0.4),
         0 0 30px rgba(255, 215, 0, 0.2);
 }
 
+.movie a {
+    display: block;
+    width: 100%;
+    max-width: 250px;
+}
+
+.movie img {
+    width: 100%;
+    max-width: 250px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.movie h3,
 .movie p {
+    margin: 8px 0 0;
+}
+
+.movie-title {
     font-family: 'Merriweather', serif;
     font-size: 16px;
     color: #ffd700;
-
     text-shadow:
         1px 1px 0 #000,
         0 0 6px rgba(255, 215, 0, 0.4);
-
-    min-height: 0;
-
-    margin-top: 8px;
-    margin-bottom: 0;
-    text-align: center;
-    line-height: 1.2;
-    max-width: 220px;
-    white-space: normal;
-    word-wrap: break-word;
 }
 
+.movie-meta,
+.movie-stars,
+.movie-verdict {
+    color: #f5e6c8;
+    font-size: 14px;
+}
 
-/*Review page*/
-.review-title {
-    text-align: center;
+.movie-verdict {
+    color: #ffcc66;
     font-family: 'Merriweather', serif;
-    font-size: 36px;
-    color: #fbf6db;
+}
 
+.card-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/*Review page, text, image, categories, rating etc*/
+.review-title {
     margin: 40px 20px 20px;
-    letter-spacing: 3px;
+}
 
-    text-shadow:
-        2px 2px 0 #000,
-        0 0 10px rgba(255, 215, 0, 0.6),
-        0 0 20px rgba(255, 0, 0, 0.4);
+.metadata-row {
+    max-width: 1100px;
+    margin: 0 auto 30px;
+    padding: 15px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    color: #f5e6c8;
+    font-family: 'Merriweather', serif;
+}
+
+.metadata-row span {
+    background: rgba(120, 20, 20, 0.45);
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 215, 0, 0.35);
 }
 
 .review-content {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    gap: 60px;
-    padding: 40px;
+    gap: 50px;
+    padding: 20px 40px 40px;
     max-width: 1200px;
     margin: 0 auto;
 }
 
 .review-text {
     flex: 1;
-    background: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0.85),
-        rgba(0, 0, 0, 0.6),
-        rgba(0, 0, 0, 0)
-    );
     padding: 20px;
-    border-left: 2px solid #ffd700;
-    border-radius: 10px;
     text-align: left;
-}
-
-.review-text p {
-    font-family: 'Merriweather', serif;
-    font-size: 16px;
-    color: #f5e6c8;
-    line-height: 1.6;
-    text-shadow:
-        1px 1px 2px rgba(0, 0, 0, 0.8);
 }
 
 .review-photo {
     text-align: center;
-    margin-top: -20px;
+    flex-shrink: 0;
 }
 
 .review-photo img {
@@ -342,49 +444,42 @@ body {
         0 0 8px rgba(255, 215, 0, 0.6);
 }
 
+/*Related movies below reviewed movie*/
+.related-section {
+    max-width: 1200px;
+    margin: 10px auto 50px;
+    padding: 20px;
+}
+
+.related-section h2 {
+    text-align: center;
+    color: #ffd700;
+    font-family: 'Merriweather', serif;
+    margin-top: 0;
+}
+
+.related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
 /*About page*/
 .about-title {
-    font-family: 'Merriweather', serif;
-    font-size: 36px;
-    color: #f5e6c8;
-
-    text-align: center;
     margin-top: 60px;
-    letter-spacing: 3px;
-
-    text-shadow:
-        2px 2px 0 #000,
-        0 0 10px rgba(255, 215, 0, 0.6),
-        0 0 20px rgba(255, 0, 0, 0.4);
 }
 
 .about-text {
-   max-width: 900px;
+    max-width: 900px;
     margin: 50px auto;
     display: flex;
     flex-direction: column;
     gap: 30px;
+    padding: 0 20px;
 }
 
 .about-section {
-    background: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0.85),
-        rgba(0, 0, 0, 0.6),
-        rgba(0, 0, 0, 0)
-    );
-    border-left: 2px solid #ffd700;
     padding: 20px;
-    border-radius: 10px;
-    backdrop-filter: blur(4px);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-section:hover {
-    transform: scale(1.02);
-    box-shadow:
-        0 0 15px rgba(255, 0, 0, 0.3),
-        0 0 25px rgba(255, 215, 0, 0.2);
 }
 
 .about-section h2 {
@@ -392,20 +487,7 @@ body {
     font-size: 22px;
     color: #ffd700;
     margin-bottom: 10px;
-    text-shadow:
-        1px 1px 0 #000,
-        0 0 8px rgba(255, 215, 0, 0.4);
 }
-
-.about-section p {
-    font-family: 'Merriweather', serif;
-    font-size: 16px;
-    color: #f5e6c8;
-    line-height: 1.6;
-    text-shadow:
-        1px 1px 2px rgba(0, 0, 0, 0.8);
-}
-
 
 /*Contact page*/
 .contact-line {
@@ -413,165 +495,125 @@ body {
     color: #ff6b6b;
     font-family: 'Merriweather', serif;
     font-size: 20px;
-
     margin-top: 40px;
     margin-bottom: 10px;
-    letter-spacing: 1px;
-    text-shadow:
-        1px 1px 0 #000,
-        0 0 6px rgba(255, 0, 0, 0.4);
+    padding: 0 20px;
 }
 
 .contact-title {
-    text-align: center;
-    font-family: 'Merriweather', serif;
-    font-size: 36px;
-    color: #f5e6c8;
-
     margin-bottom: 30px;
-    letter-spacing: 3px;
-    text-shadow:
-        2px 2px 0 #000,
-        0 0 10px rgba(255, 215, 0, 0.6),
-        0 0 20px rgba(255, 0, 0, 0.4);
+    padding: 0 20px;
 }
 
 .contact-info {
     max-width: 700px;
-    margin: 0 auto;
+    margin: 0 auto 40px;
     padding: 25px;
     text-align: center;
-    background: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0.85),
-        rgba(0, 0, 0, 0.6),
-        rgba(0, 0, 0, 0)
-    );
-    border-left: 2px solid #ffd700;
-    border-radius: 10px;
-
     font-family: 'Merriweather', serif;
     color: #f5e6c8;
-    backdrop-filter: blur(4px);
 }
 
 .contact-info a {
     color: #ffd700;
     text-decoration: none;
-    transition: all 0.2s ease;
 }
 
-.contact-info a:hover {
-    text-shadow:
-        0 0 8px rgba(255, 215, 0, 0.8);
+.empty-message {
+    text-align: center;
+    color: #f5e6c8;
+    padding: 20px;
+    font-family: 'Merriweather', serif;
 }
 
-
-/*Mobile compatibility*/
+/*All compatibilities*/
 
 @media (max-width: 768px) {
+    body {
+        background-attachment: scroll;
+    }
 
-    /*Homepage*/
     .bar {
         flex-direction: column;
         text-align: center;
-        gap: 10px;
-        margin-bottom: 20px;
+    }
+
+    .slogan {
+        text-align: center;
     }
 
     .side-buttons {
-    position: static;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    width: 100%;
-    margin-top: 25px;
-}
+        position: static;
+        align-items: center;
+        margin-top: 25px;
+        padding: 0 20px;
+    }
 
-.side-buttons button {
-    width: 280px;  
-    box-sizing: border-box;
-}
+    .side-buttons a {
+        width: 280px;
+        max-width: 100%;
+    }
 
     .homepage-main {
         margin-top: 40px;
-        padding: 0 15px;
     }
 
-    .homepage-content {
+    .homepage-content,
+    .review-content {
         flex-direction: column;
         text-align: center;
+        padding: 20px;
     }
 
-    .text {
-        width: 90%;
+    .text,
+    .review-text,
+    .about-section,
+    .contact-info,
+    .controls-panel,
+    .metadata-row,
+    .related-section {
+        border-left: none;
+        border-top: 2px solid #ffd700;
+    }
+
+    .text,
+    .review-text {
         text-align: center;
     }
 
-    .homepage-photo img {
-        width: 90%;
-        max-width: 320px;
-    }
-
-    .movie-title-homepage {
-        font-size: 28px;
-    }
-
-    /*BOAT page*/
     .movies {
         grid-template-columns: repeat(2, 1fr);
         padding: 25px;
         gap: 25px;
     }
 
-    .title h2 {
-        font-size: 28px;
+    .review-photo img,
+    .homepage-photo img {
+        width: 85%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 520px) {
+    .movies {
+        grid-template-columns: 1fr;
     }
 
-    .movie img {
-        height: 280px;
-    }
-
-    /*Review page*/
-    .review-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
-
-    .review-text {
-        border-left: none;
-        border-top: 2px solid #ffd700;
-        text-align: center;
-    }
-
-    .review-photo img {
-        width: 80%;
-        max-width: 300px;
-    }
-
-    /*About page*/
-    .about-text {
-        margin: 20px;
-    }
-
-    .about-section {
-        padding: 15px;
-        text-align: center;
-        border-left: none;
-        border-top: 2px solid #ffd700;
-    }
-
-    /*Contact page*/
+    .title h1,
+    .title h2,
+    .review-title,
+    .about-title,
     .contact-title {
         font-size: 28px;
+        letter-spacing: 2px;
     }
 
-    .contact-info {
-        margin: 20px;
-        padding: 20px;
-        border-left: none;
-        border-top: 2px solid #ffd700;
+    .movie-title-homepage {
+        font-size: 24px;
+    }
+
+    .stars {
+        font-size: 32px;
     }
 }
