@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--Set up; lang, fonts, scaling-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New Releases - WatchWorth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<!--Header-->
+<body>
+    <div class="bar">
+        <a href="index.html" class="logo">WatchWorth</a>
+        <div class="slogan">Is it worth the watch?</div>
+    </div>
+
+    <div class="title">
+        <h1>New Releases</h1>
+    </div>
+
+    <!--Sorting and movie filters-->
+    <section class="controls-panel">
+        <div class="search-row">
+            <input type="text" id="searchInput" class="search-input" placeholder="Search new releases...">
+            <select id="sortSelect" class="sort-select">
+                <option value="default">Sort: Default</option>
+                <option value="az">Title A-Z</option>
+                <option value="rating">Rating High-Low</option>
+            </select>
+        </div>
+
+        <div class="filter-row">
+            <button class="filter-btn" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="3plus">3+ Star</button>
+            <button class="filter-btn" data-filter="Crime">Crime</button>
+            <button class="filter-btn" data-filter="Drama">Drama</button>
+            <button class="filter-btn" data-filter="Worth Watching">Worth Watching</button>
+            <button class="filter-btn" data-filter="Mixed">Mixed</button>
+        </div>
+
+        <p class="results-info" id="resultsInfo">Showing new releases</p>
+    </section>
+
+    <!--Error message-->
+    <div class="movies" id="movieGrid"></div>
+    <div class="empty-message" id="emptyMessage" style="display:none;">No movies matched your search.</div>
+
+    <!--Js script; filters and categories-->
+    <script src="movies.js"></script>
+    <script>
+        const movieGrid = document.getElementById("movieGrid");
+        const searchInput = document.getElementById("searchInput");
+        const sortSelect = document.getElementById("sortSelect");
+        const filterButtons = document.querySelectorAll(".filter-btn");
+        const resultsInfo = document.getElementById("resultsInfo");
+        const emptyMessage = document.getElementById("emptyMessage");
+
+        let currentFilter = "all";
+        const baseMovies = movies.filter(movie => movie.category === "New Releases");
+
+        function renderPageMovies() {
+            let filteredMovies = baseMovies.filter(movie => {
+                const matchesSearch = movie.title.toLowerCase().includes(searchInput.value.toLowerCase().trim());
+
+                let matchesFilter = true;
+                if (currentFilter === "3plus") {
+                    matchesFilter = movie.rating >= 3;
+                } else if (currentFilter !== "all") {
+                    matchesFilter = movie.genre === currentFilter || movie.verdict === currentFilter;
+                }
+
+                return matchesSearch && matchesFilter;
+            });
+
+            if (sortSelect.value === "az") {
+                filteredMovies.sort((a, b) => a.title.localeCompare(b.title));
+            } else if (sortSelect.value === "rating") {
+                filteredMovies.sort((a, b) => b.rating - a.rating || a.title.localeCompare(b.title));
+            }
+
+            movieGrid.innerHTML = filteredMovies.map(movie => `
+                <div class="movie">
+                    <a href="movie.html?id=${movie.id}">
+                        <img src="${movie.image}" alt="${movie.alt}">
+                    </a>
+                    <h3 class="movie-title">${movie.title}</h3>
+                    <p class="movie-stars">${movie.stars}</p>
+                    <p class="movie-meta">${movie.genre} • ${movie.year}</p>
+                    <p class="movie-verdict">${movie.verdict}</p>
+                </div>
+            `).join("");
+
+            resultsInfo.textContent = `Showing ${filteredMovies.length} movie${filteredMovies.length !== 1 ? "s" : ""}`;
+            emptyMessage.style.display = filteredMovies.length === 0 ? "block" : "none";
+        }
+
+        searchInput.addEventListener("input", renderPageMovies);
+        sortSelect.addEventListener("change", renderPageMovies);
+
+        filterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                filterButtons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+                currentFilter = button.dataset.filter;
+                renderPageMovies();
+            });
+        });
+
+        document.querySelector('.filter-btn[data-filter="all"]').classList.add("active");
+        renderPageMovies();
+    </script>
+</body>
+</html>
