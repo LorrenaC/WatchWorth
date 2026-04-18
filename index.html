@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--Set up; lang, fonts, scaling-->
+<!--set up; lang, fonts, scaling-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -10,13 +10,13 @@
 </head>
 <body>
 
-<!--Header-->
+<!--header-->
     <div class="bar">
         <a href="index.html" class="logo">WatchWorth</a>
         <div class="slogan">Is it worth the watch?</div>
     </div>
 
-    <!--Buttons-->
+    <!--buttons-->
     <nav class="side-buttons" aria-label="Main navigation">
         <a href="BestOfAllTime.html">Top Movies of All Time</a>
         <a href="NewReleases.html">New Releases</a>
@@ -24,7 +24,7 @@
         <a href="AboutUs.html">About Us</a>
     </nav>
 
-    <!--Movie of the week area-->
+    <!--movie of the week area-->
     <main class="homepage-main">
         <h2 class="homepage-movie">
             Movie of the Week:
@@ -72,7 +72,7 @@
             <p class="results-info" id="resultsInfo">Showing all movies</p>
         </section>
 
-        <!--Error message-->
+        <!--no movie message-->
         <section>
             <div class="title">
                 <h2>Browse All Reviews</h2>
@@ -84,7 +84,7 @@
         </section>
     </main>
 
-    <!--Contact info-->
+    <!--contact info-->
     <footer class="contact">
         <div class="contact-text"></div>
         <p>
@@ -93,7 +93,7 @@
         </p>
     </footer>
 
-    <!--Js script functions-->
+    <!--js script functions-->
     <script src="movies.js"></script>
     <script>
         const movieGrid = document.getElementById("movieGrid");
@@ -107,17 +107,17 @@
         let currentFilter = "all";
         let showingFavoritesOnly = false;
 
-        //Read favorites list (or return empty array)
+        //read favorites list (or return empty array)
         function getFavorites() {
             return JSON.parse(localStorage.getItem("watchworthFavorites")) || [];
         }
 
-        //Save favorites list
+        //save favorites list
         function saveFavorites(favorites) {
             localStorage.setItem("watchworthFavorites", JSON.stringify(favorites));
         }
 
-        //Add and remove a movie from favorites
+        //add and remove a movie from favorites
         function toggleFavorite(movieId) {
             let favorites = getFavorites();
 
@@ -131,7 +131,7 @@
             renderMovies();
         }
 
-        //Make the movie cards with all the details
+        //make the movie cards with all the details
         function createMovieCard(movie) {
             const favorites = getFavorites();
             const isFavorite = favorites.includes(movie.id);
@@ -155,7 +155,7 @@
             `;
         }
 
-        //Check if the movie mathches criteria or not
+        //check if the movie mathches criteria or not
         function applyFilter(movie) {
             if (showingFavoritesOnly) {
                 const favorites = getFavorites();
@@ -182,7 +182,7 @@
             return matchesSearch && matchesFilter;
         }
 
-        //Sort the movies based on the criteria
+        //sort the movies based on the criteria
         function sortMovies(movieList) {
             const sortValue = sortSelect.value;
 
@@ -195,7 +195,7 @@
             return movieList;
         }
 
-        //Main function for filtering, sorting and showing the correct card
+        //main function for filtering, sorting and showing the correct card
         function renderMovies() {
             let filteredMovies = movies.filter(applyFilter);
             filteredMovies = sortMovies(filteredMovies);
@@ -215,7 +215,7 @@
             updateFavoritesButton();
         }
 
-        //Change show movies/favorites button
+        //change show movies/favorites button
         function updateFavoritesButton() {
             if (showingFavoritesOnly) {
                 showFavoritesBtn.textContent = "Show All Movies";
