@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--Set up; lang, fonts, scaling-->
+<!--set up; lang, fonts, scaling-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<!--Header-->
+<!--header-->
 <body>
     <div class="bar">
         <a href="index.html" class="logo">WatchWorth</a>
@@ -20,7 +20,7 @@
         <h1>Lowest Rated</h1>
     </div>
 
-    <!--Sorting and movie filters-->
+    <!--sorting and movie filters-->
     <section class="controls-panel">
         <div class="search-row">
             <input type="text" id="searchInput" class="search-input" placeholder="Search lowest rated movies...">
@@ -43,7 +43,7 @@
         <p class="results-info" id="resultsInfo">Showing lowest rated movies</p>
     </section>
 
-    <!--Error message-->
+    <!--no movie message-->
     <div class="movies" id="movieGrid"></div>
     <div class="empty-message" id="emptyMessage" style="display:none;">No movies matched your search.</div>
 
@@ -59,7 +59,7 @@
         let currentFilter = "all";
         const baseMovies = movies.filter(movie => movie.category === "Lowest Rated");
 
-        //Match and display all movies with 2 stars or below
+        //match and display all movies with 2 stars or below
         function renderPageMovies() {
             let filteredMovies = baseMovies.filter(movie => {
                 const matchesSearch = movie.title.toLowerCase().includes(searchInput.value.toLowerCase().trim());
@@ -82,7 +82,7 @@
                 filteredMovies.sort((a, b) => b.rating - a.rating || a.title.localeCompare(b.title));
             }
 
-            //Make all the card with all details
+            //make all the card with all details
             movieGrid.innerHTML = filteredMovies.map(movie => `
                 <div class="movie">
                     <a href="movie.html?id=${movie.id}">
@@ -95,12 +95,12 @@
                 </div>
             `).join("");
 
-            //Refresh all results and toggle the empty message
+            //refresh all results and toggle the empty message
             resultsInfo.textContent = `Showing ${filteredMovies.length} movie${filteredMovies.length !== 1 ? "s" : ""}`;
             emptyMessage.style.display = filteredMovies.length === 0 ? "block" : "none";
         }
 
-        //Refresh whenever the user changes something
+        //refresh whenever the user changes something
         searchInput.addEventListener("input", renderPageMovies);
         sortSelect.addEventListener("change", renderPageMovies);
 
