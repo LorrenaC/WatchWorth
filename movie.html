@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--Set up; lang, fonts, scaling-->
+<!--set up; lang, fonts, scaling-->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,14 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<!--Header-->
+<!--header-->
 <body>
 
     <div class="bar">
         <a href="index.html" class="logo">WatchWorth</a>
         <div class="slogan">Is it worth the watch?</div>
     </div>
-    <!--Whole review section, title, categories, review, photo-->
+    <!--whole review section, title, categories, review, photo-->
     <h1 class="review-title" id="movie-title">Movie Review</h1>
 
     <div class="metadata-row" id="metadataRow"></div>
@@ -36,7 +36,7 @@
         </div>
     </div>
 
-    <!--Related movies area-->
+    <!--related movies area-->
     <section class="related-section">
         <h2>Related Movies</h2>
         <div class="related-grid" id="relatedGrid"></div>
@@ -56,7 +56,7 @@
         const relatedGrid = document.getElementById("relatedGrid");
         const favoriteButton = document.getElementById("favoriteButton");
 
-        //All favourites functions, save, remove/add
+        //all favourites functions, save, remove/add
         function getFavorites() {
             return JSON.parse(localStorage.getItem("watchworthFavorites")) || [];
         }
@@ -85,7 +85,7 @@
             updateFavoriteButton();
         }
 
-        //Make sure related movies are showing (those that match 3 categories)
+        //make sure related movies are showing (those that match 3 categories)
         function renderRelatedMovies(currentMovie) {
             const related = movies
                 .filter(item => item.id !== currentMovie.id && (item.genre === currentMovie.genre || item.category === currentMovie.category))
@@ -125,7 +125,7 @@
                 <span>Verdict: ${movie.verdict}</span>
             `;
 
-            //Error messages and the page style that show if no movies are found
+            //all nomovie messages
             renderRelatedMovies(movie);
             updateFavoriteButton();
             favoriteButton.addEventListener("click", toggleFavorite);
