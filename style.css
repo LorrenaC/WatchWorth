@@ -1,7 +1,7 @@
 * {
     box-sizing: border-box;
 }
- /*Background of all pages*/
+/*background of all pages*/
 body {
     margin: 0;
     font-family: 'Open Sans', sans-serif;
@@ -24,7 +24,7 @@ a {
     color: inherit;
 }
 
-/*Header for all pages*/
+/*header for all pages*/
 .bar {
     background: linear-gradient(
         to right,
@@ -58,7 +58,7 @@ a {
     text-align: right;
 }
 
-/*All the buttons on the side*/
+/*all the buttons on the side*/
 .side-buttons {
     position: absolute;
     top: 120px;
@@ -89,7 +89,7 @@ a {
     border: none;
 }
 
-/*Universal button styles*/
+/*universal button styles*/
 .side-buttons a:hover,
 .action-button:hover,
 .filter-btn:hover,
@@ -119,7 +119,7 @@ a {
     border-radius: 8px;
 }
 
-/*Homepage center area, text, photo, etc.*/
+/*homepage center area, text, photo, etc.*/
 .homepage-main {
     text-align: center;
     margin-top: 120px;
@@ -159,7 +159,7 @@ a {
     flex-wrap: wrap;
 }
 
-/*Text box for all*/
+/*text box for all*/
 .text,
 .review-text,
 .about-section,
@@ -197,7 +197,7 @@ a {
     white-space: pre-line;
 }
 
-/*Movie of the week photo effects*/
+/*movie of the week photo effects*/
 .homepage-photo img {
     width: 300px;
     border-radius: 10px;
@@ -211,7 +211,7 @@ a {
     transform: scale(1.08);
 }
 
-/*Contact area*/
+/*contact area*/
 .contact {
     margin-top: 80px;
     padding: 0 20px 30px;
@@ -251,7 +251,7 @@ a {
     text-align: center;
 }
 
-/*Sorting buttons and filters, search bar*/
+/*sorting buttons and filters, search bar*/
 .controls-panel {
     max-width: 1200px;
     margin: 30px auto 0;
@@ -304,7 +304,7 @@ a {
     font-family: 'Merriweather', serif;
 }
 
-/*Movie cards*/
+/*movie cards*/
 .movies {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -382,7 +382,7 @@ a {
     justify-content: center;
 }
 
-/*Review page, text, image, categories, rating etc*/
+/*review page, text, image, categories, rating etc*/
 .review-title {
     margin: 40px 20px 20px;
 }
@@ -444,7 +444,7 @@ a {
         0 0 8px rgba(255, 215, 0, 0.6);
 }
 
-/*Related movies below reviewed movie*/
+/*related movies below reviewed movie*/
 .related-section {
     max-width: 1200px;
     margin: 10px auto 50px;
@@ -464,7 +464,7 @@ a {
     gap: 20px;
 }
 
-/*About page*/
+/*about page*/
 .about-title {
     margin-top: 60px;
 }
@@ -489,7 +489,7 @@ a {
     margin-bottom: 10px;
 }
 
-/*Contact page*/
+/*contact page*/
 .contact-line {
     text-align: center;
     color: #ff6b6b;
@@ -526,7 +526,7 @@ a {
     font-family: 'Merriweather', serif;
 }
 
-/*All compatibilities*/
+/*all compatibilities*/
 
 @media (max-width: 768px) {
     body {
